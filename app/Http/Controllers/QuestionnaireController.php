@@ -7,33 +7,22 @@ use Illuminate\Http\Request;
 use Session;
 class QuestionnaireController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
     public function create () {
 
-     
         return view('layouts.questionnaire.create'); 
     }
-    public function store(Request $request) {
+    public function store() {
         $data = request()->validate([
 
             'title' => 'required',
             'purpose' => 'required'
         ]);
-        
-        $user_id                = auth()->user()->id;
-        $questionnaire          = new Questionnaire();
-        $questionnaire->title   = $request->title;
-        $questionnaire->purpose = $request->purpose;
-        $questionnaire->user_id = $user_id;
-        if($questionnaire->save())
-        {
-            Session::flash('alert-success','Questionniare is added succcessfully');
-        }
-        else
-        {
-            Session::flash('error','Oops something went wrong!');
-        }
-        
-        return redirect()->back();
+        $questionnaire = auth()->user()->questionnaires()->create($data);
+
+        return redirect('/questionnaires/'.$questionnaire->id);
         
     }
 
