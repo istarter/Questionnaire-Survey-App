@@ -11,6 +11,7 @@ class QuestionController extends Controller
     {
         return view('question.create', compact('questionnaire'));
     }
+<<<<<<< HEAD
 
     public function store(Questionnaire $questionnaire)
     {
@@ -32,4 +33,6 @@ class QuestionController extends Controller
 
         return redirect($questionnaire->path());
     }
+=======
+>>>>>>> parent of d19ab1f... ask questions option added
 }
